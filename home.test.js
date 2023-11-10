@@ -25,11 +25,24 @@ test('Can add player to player pool', async ({ page }) => {
 	await beforeSubmit.submitButton.click();
 
 	const afterSubmit = {
-		players: page.getByRole('listitem')
+		players: page.getByRole('listitem'),
+		nameInput: page.getByRole('textbox', { name: 'Name' }),
+		submitButton: page.getByRole('button', { name: 'Add to Player Pool' })
 	};
 
 	afterSubmit.players = page.getByRole('listitem');
 
 	await expect(afterSubmit.players).toHaveCount(1);
 	await expect(afterSubmit.players).toHaveText('Vince Young');
+
+	await afterSubmit.nameInput.fill('Colt McCoy');
+
+	await afterSubmit.submitButton.click();
+
+	const afterSecondSubmit = {
+		players: page.getByRole('listitem')
+	};
+
+	await expect(afterSecondSubmit.players).toHaveCount(2);
+	await expect(afterSecondSubmit.players).toHaveText(['Vince Young', 'Colt McCoy']);
 });

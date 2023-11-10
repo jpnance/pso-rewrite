@@ -1,16 +1,19 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 
 const server = express();
 const port = process.env.PORT;
 
+server.use(bodyParser.urlencoded({ extended: true }));
+
 const players = [];
 
 server.get('/', (request, response) => {
-	response.send(`<html><head><title>Players</title></head><body><form method="post"><ul>${players.map(toListItem)}</ul><label>Name <input type="text" /></label><button>Add to Player Pool</button></form></body></html>`);
+	response.send(`<html><head><title>Players</title></head><body><form method="post"><ul>${players.map(toListItem).join('')}</ul><label>Name <input name="name" type="text" /></label><button>Add to Player Pool</button></form></body></html>`);
 });
 
 server.post('/', (request, response) => {
-	players.push('Vince Young');
+	players.push(request.body.name);
 
 	response.redirect('/');
 });
