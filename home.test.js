@@ -15,30 +15,31 @@ test('Can add players to player pool', async ({ page }) => {
 		};
 	};
 
+	const addPlayer = async (name, { nameInput, submitButton }) => {
+		await nameInput.fill(name);
+		await submitButton.click();
+	};
+
 	await page.goto('http://localhost:3000/');
 
-	const beforeSubmit = getPageLocators(page);
+	let locators = getPageLocators(page);
 
-	await expect(beforeSubmit.players).toHaveCount(0);
+	await expect(locators.players).toHaveCount(0);
 
-	await expect(beforeSubmit.nameInput).toBeVisible();
-	await expect(beforeSubmit.submitButton).toBeVisible();
+	await expect(locators.nameInput).toBeVisible();
+	await expect(locators.submitButton).toBeVisible();
 
-	await beforeSubmit.nameInput.fill('Vince Young');
+	await addPlayer('Vince Young', locators);
 
-	await beforeSubmit.submitButton.click();
+	locators = getPageLocators(page);
 
-	const afterSubmit = getPageLocators(page);
+	await expect(locators.players).toHaveCount(1);
+	await expect(locators.players).toHaveText('Vince Young');
 
-	await expect(afterSubmit.players).toHaveCount(1);
-	await expect(afterSubmit.players).toHaveText('Vince Young');
+	await addPlayer('Colt McCoy', locators);
 
-	await afterSubmit.nameInput.fill('Colt McCoy');
+	locators = getPageLocators(page);
 
-	await afterSubmit.submitButton.click();
-
-	const afterSecondSubmit = getPageLocators(page);
-
-	await expect(afterSecondSubmit.players).toHaveCount(2);
-	await expect(afterSecondSubmit.players).toHaveText(['Vince Young', 'Colt McCoy']);
+	await expect(locators.players).toHaveCount(2);
+	await expect(locators.players).toHaveText(['Vince Young', 'Colt McCoy']);
 });
