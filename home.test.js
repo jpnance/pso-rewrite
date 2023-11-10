@@ -7,13 +7,17 @@ test('Has title', async ({ page }) => {
 });
 
 test('Can add players to player pool', async ({ page }) => {
+	const getPageLocators = (page) => {
+		return {
+			players: page.getByRole('listitem'),
+			nameInput: page.getByRole('textbox', { name: 'Name' }),
+			submitButton: page.getByRole('button', { name: 'Add to Player Pool' })
+		};
+	};
+
 	await page.goto('http://localhost:3000/');
 
-	const beforeSubmit = {
-		players: page.getByRole('listitem'),
-		nameInput: page.getByRole('textbox', { name: 'Name' }),
-		submitButton: page.getByRole('button', { name: 'Add to Player Pool' })
-	};
+	const beforeSubmit = getPageLocators(page);
 
 	await expect(beforeSubmit.players).toHaveCount(0);
 
@@ -24,11 +28,7 @@ test('Can add players to player pool', async ({ page }) => {
 
 	await beforeSubmit.submitButton.click();
 
-	const afterSubmit = {
-		players: page.getByRole('listitem'),
-		nameInput: page.getByRole('textbox', { name: 'Name' }),
-		submitButton: page.getByRole('button', { name: 'Add to Player Pool' })
-	};
+	const afterSubmit = getPageLocators(page);
 
 	afterSubmit.players = page.getByRole('listitem');
 
@@ -39,9 +39,7 @@ test('Can add players to player pool', async ({ page }) => {
 
 	await afterSubmit.submitButton.click();
 
-	const afterSecondSubmit = {
-		players: page.getByRole('listitem')
-	};
+	const afterSecondSubmit = getPageLocators(page);
 
 	await expect(afterSecondSubmit.players).toHaveCount(2);
 	await expect(afterSecondSubmit.players).toHaveText(['Vince Young', 'Colt McCoy']);
