@@ -6,7 +6,7 @@ test('Has title', async ({ page }) => {
 	await expect(page).toHaveTitle(/Players/);
 });
 
-test('Can add player to player pool', async ({ page }) => {
+test('Can add players to player pool', async ({ page }) => {
 	await page.goto('http://localhost:3000/');
 
 	const beforeSubmit = {
