@@ -9,7 +9,7 @@ server.use(bodyParser.urlencoded({ extended: true }));
 const players = [];
 
 server.get('/', (request, response) => {
-	response.send(`<html><head><title>Players</title></head><body><form method="post"><ul>${players.map(toListItem).join('')}</ul><label>Name <input name="name" type="text" /></label><button>Add to Player Pool</button></form></body></html>`);
+	response.send(`<html><head><title>Players</title></head><body><ul>${players.map(toListItem).join('')}</ul><form method="post"><label>Name <input name="name" type="text" /></label><button>Add to Player Pool</button></form></body></html>`);
 });
 
 server.post('/', (request, response) => {
