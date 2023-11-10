@@ -4,7 +4,7 @@ const server = express();
 const port = process.env.PORT;
 
 server.get('/', (request, response) => {
-	response.send('<html><head><title>Rostered Players</title></head></html>');
+	response.send('<html><head><title>Players</title></head></html>');
 });
 
 server.listen(port, () => {
