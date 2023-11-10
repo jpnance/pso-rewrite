@@ -30,8 +30,6 @@ test('Can add players to player pool', async ({ page }) => {
 
 	const afterSubmit = getPageLocators(page);
 
-	afterSubmit.players = page.getByRole('listitem');
-
 	await expect(afterSubmit.players).toHaveCount(1);
 	await expect(afterSubmit.players).toHaveText('Vince Young');
 
